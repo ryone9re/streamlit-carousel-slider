@@ -24,8 +24,8 @@ class Image(TypedDict):
     An image to be displayed in carousel.
     """
 
-    sourse: str
-    """Image sourse string"""
+    source: str
+    """Image source"""
 
 
 def streamlit_carousel_slider(images: list[Image]) -> None:
@@ -36,4 +36,4 @@ def streamlit_carousel_slider(images: list[Image]) -> None:
     :return: Nothing to be returned.
     :rtype: None
     """
-    st.write(_component_func(images, key="carousel"))
+    st.write(_component_func(images=images))
