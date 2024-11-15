@@ -1,7 +1,6 @@
 import os
 from typing import TypedDict
 
-import streamlit as st
 import streamlit.components.v1 as components
 
 _RELEASE = False
@@ -11,7 +10,7 @@ _COMPONENT_NAME = "streamlit_carousel_slider"
 if not _RELEASE:
     _component_func = components.declare_component(
         _COMPONENT_NAME,
-        url="http://localhost:3000",
+        url="http://127.0.0.1:5173",
     )
 else:
     parent_dir = os.path.dirname(os.path.abspath(__file__))
@@ -36,4 +35,4 @@ def streamlit_carousel_slider(images: list[Image]) -> None:
     :return: Nothing to be returned.
     :rtype: None
     """
-    st.write(_component_func(images=images))
+    _component_func(images=images)
