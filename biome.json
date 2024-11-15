@@ -1,0 +1,31 @@
+{
+    "$schema": "./streamlit_carousel_slider/frontend/node_modules/@biomejs/biome/configuration_schema.json",
+    "files": {
+        "ignore": ["**/node_modules/**", "apps/web/worker-configuration.d.ts"]
+    },
+    "vcs": {
+        "enabled": true,
+        "clientKind": "git",
+        "useIgnoreFile": true
+    },
+    "organizeImports": {
+        "enabled": true
+    },
+    "formatter": {
+        "enabled": true,
+        "indentStyle": "space"
+    },
+    "linter": {
+        "enabled": true,
+        "rules": {
+            "recommended": true,
+            "correctness": {
+                "noUnusedImports": "error",
+                "noUnusedVariables": "error"
+            },
+            "suspicious": {
+                "noConfusingVoidType": "off"
+            }
+        }
+    }
+}
