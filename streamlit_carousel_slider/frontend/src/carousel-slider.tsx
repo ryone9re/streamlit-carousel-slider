@@ -3,6 +3,7 @@ import {
   StreamlitComponentBase,
   withStreamlitConnection,
 } from "streamlit-component-lib";
+import { indexToSerial } from "./utils";
 
 type Images = Array<{ source: string }>;
 
@@ -15,8 +16,8 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
 
   const previousSlide = useCallback(
     (currentPage: number) => {
-      if (currentPage === 0) {
-        return imageLength - 1;
+      if (currentPage <= 1) {
+        return imageLength;
       }
       return currentPage - 1;
     },
@@ -25,8 +26,8 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
 
   const nextSlide = useCallback(
     (currentPage: number) => {
-      if (currentPage + 1 >= imageLength) {
-        return 0;
+      if (currentPage >= imageLength) {
+        return 1;
       }
       return currentPage + 1;
     },
@@ -39,23 +40,23 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
         {images.map((image, index) => (
           <div
             key={image.source}
-            id={`carousel-slide-${index}`}
+            id={`carousel-slide-${indexToSerial(index)}`}
             className="carousel-item relative w-full"
           >
             <img
-              alt={`carousel-image-${index}`}
+              alt={`carousel-image-${indexToSerial(index)}`}
               src={image.source}
               className="w-full"
             />
             <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
               <a
-                href={`#carousel-slide-${previousSlide(index)}`}
+                href={`#carousel-slide-${previousSlide(indexToSerial(index))}`}
                 className="btn btn-circle"
               >
                 ❮
               </a>
               <a
-                href={`#carousel-slide-${nextSlide(index)}`}
+                href={`#carousel-slide-${nextSlide(indexToSerial(index))}`}
                 className="btn btn-circle"
               >
                 ❯
@@ -68,10 +69,10 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
         {images.map((image, index) => (
           <a
             key={image.source}
-            href={`#carousel-slide-${index}`}
+            href={`#carousel-slide-${indexToSerial(index)}`}
             className="btn btn-xs"
           >
-            {index}
+            {indexToSerial(index)}
           </a>
         ))}
       </div>
