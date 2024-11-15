@@ -1,13 +1,14 @@
-import './index.css'
+import "./index.css";
 
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
+import { StrictMode } from "react";
+import { createRoot } from "react-dom/client";
 
-import CarouselSliderComponent, { CarouselSlider } from './carousel-slider'
+import CarouselSliderComponent, { CarouselSlider } from "./carousel-slider";
 
-createRoot(document.getElementById('root')!).render(
+// biome-ignore lint/style/noNonNullAssertion: Biome default
+createRoot(document.getElementById("root")!).render(
   <StrictMode>
     <CarouselSlider images={[]} />
     <CarouselSliderComponent />
   </StrictMode>,
-)
+);
