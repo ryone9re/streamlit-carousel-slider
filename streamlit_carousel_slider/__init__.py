@@ -3,7 +3,7 @@ from typing import TypedDict
 
 import streamlit.components.v1 as components
 
-_RELEASE = False
+_RELEASE = True
 
 _COMPONENT_NAME = "streamlit_carousel_slider"
 
