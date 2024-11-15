@@ -1,0 +1,14 @@
+{
+    "name": "Python 3",
+    "image": "mcr.microsoft.com/devcontainers/python:1-3.12-bullseye",
+    "features": {
+        "ghcr.io/devcontainers/features/node:1": {
+            "version": "lts",
+            "pnpmVersion": "latest",
+            "nvmVersion": "latest"
+        },
+        "ghcr.io/devcontainers-extra/features/poetry:2": {
+            "version": "latest"
+        }
+    }
+}
