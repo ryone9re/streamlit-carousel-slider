@@ -1,5 +1,5 @@
 setup-python:
-	poetry install --sync
+	poetry install
 
 setup-node:
 	cd streamlit_carousel_slider/frontend && pnpm install --frozen-lockfile

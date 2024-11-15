@@ -11,5 +11,17 @@
             "version": "latest"
         }
     },
-    "postCreateCommand": "make setup"
+    "postCreateCommand": "make setup",
+    "customizations": {
+        "vscode": {
+            "extensions": [
+                "ms-python.python",
+                "LittleFoxTeam.vscode-python-test-adapter",
+                "usernamehw.errorlens",
+                "charliermarsh.ruff",
+                "ms-python.mypy-type-checker",
+                "biomejs.biome"
+            ]
+        }
+    }
 }

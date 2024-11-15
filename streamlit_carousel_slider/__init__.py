@@ -36,4 +36,4 @@ def streamlit_carousel_slider(images: list[Image]) -> None:
     :return: Nothing to be returned.
     :rtype: None
     """
-    return _component_func(images)
+    return _component_func(images, key="carousel")
