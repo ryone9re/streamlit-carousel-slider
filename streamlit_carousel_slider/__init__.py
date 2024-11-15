@@ -1,5 +1,7 @@
 import os
 from typing import TypedDict
+
+import streamlit as st
 import streamlit.components.v1 as components
 
 _RELEASE = False
@@ -14,16 +16,14 @@ if not _RELEASE:
 else:
     parent_dir = os.path.dirname(os.path.abspath(__file__))
     build_dir = os.path.join(parent_dir, "frontend/dist")
-    _component_func = components.declare_component(
-        _COMPONENT_NAME,
-        path=build_dir
-    )
+    _component_func = components.declare_component(_COMPONENT_NAME, path=build_dir)
 
 
 class Image(TypedDict):
     """
     An image to be displayed in carousel.
     """
+
     sourse: str
     """Image sourse string"""
 
@@ -36,4 +36,4 @@ def streamlit_carousel_slider(images: list[Image]) -> None:
     :return: Nothing to be returned.
     :rtype: None
     """
-    return _component_func(images, key="carousel")
+    st.write(_component_func(images, key="carousel"))
