@@ -4,7 +4,7 @@ import {
   withStreamlitConnection,
 } from "streamlit-component-lib";
 
-type Images = Array<{ sourse: string }>;
+type Images = Array<{ source: string }>;
 
 type CarouselSliderProps = {
   images: Images;
