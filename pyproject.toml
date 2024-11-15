@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "streamlit-carousel-slider"
-version = "1.0.0"
+version = "1.0.1"
 description = "Carousel slider component for streamlit."
 authors = ["ryone9re <ryoichi.kurimoto@gmail.com>"]
 license = "MIT"
