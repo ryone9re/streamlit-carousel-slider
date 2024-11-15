@@ -13,7 +13,7 @@ setuptools.setup(
     description="Carousel slider component for streamlit using React and tailwind with daisyui.",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="",
+    url="https://pypi.org/project/streamlit-carousel-slider",
     packages=setuptools.find_packages(),
     include_package_data=True,
     classifiers=[],
