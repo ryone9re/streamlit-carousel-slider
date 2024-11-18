@@ -1,4 +1,10 @@
-import { type ReactNode, useCallback } from "react";
+import {
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from "react";
 import {
   StreamlitComponentBase,
   withStreamlitConnection,
@@ -11,8 +17,36 @@ type CarouselSliderProps = {
   images: Images;
 };
 
+const CAROUSEL_SLIDER_NUMBER_REGEX = new RegExp(/#carousel-slide-(\d+)/);
+
+function extractSliderNumber(hash: string): number {
+  const _DEFAULT = 1;
+  const matched = hash.match(CAROUSEL_SLIDER_NUMBER_REGEX);
+  if (matched === null) {
+    return _DEFAULT;
+  }
+  if (matched.length !== 2) {
+    return _DEFAULT;
+  }
+  const slideNumber = Number.parseInt(matched[1]);
+  if (Number.isNaN(slideNumber)) {
+    return _DEFAULT;
+  }
+  return slideNumber;
+}
+
 export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
   const imageLength = images.length;
+
+  const [slideNumber, setSlideNumber] = useState(
+    extractSliderNumber(location.hash),
+  );
+
+  const memorizedImages = useMemo(
+    () =>
+      images.map((image, index) => ({ id: indexToSerial(index), ...image })),
+    [images],
+  );
 
   const previousSlide = useCallback(
     (currentPage: number) => {
@@ -34,30 +68,38 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
     [imageLength],
   );
 
+  useEffect(() => {
+    const onHashChange = () => {
+      setSlideNumber(extractSliderNumber(location.hash));
+    };
+    window.addEventListener("hashchange", onHashChange);
+    return () => window.removeEventListener("hashchange", onHashChange);
+  });
+
   return (
     <>
       <div className="carousel w-full">
-        {images.map((image, index) => (
+        {memorizedImages.map((image) => (
           <div
             key={image.source}
-            id={`carousel-slide-${indexToSerial(index)}`}
+            id={`carousel-slide-${image.id}`}
             className="carousel-item relative w-full"
           >
             <img
-              alt={`carousel-image-${indexToSerial(index)}`}
+              alt={`carousel-image-${image.id}`}
               src={image.source}
               className="w-full"
             />
             <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
               <a
-                href={`#carousel-slide-${previousSlide(indexToSerial(index))}`}
-                className="btn btn-circle"
+                href={`#carousel-slide-${previousSlide(image.id)}`}
+                className="btn btn-ghost btn-circle"
               >
                 ❮
               </a>
               <a
-                href={`#carousel-slide-${nextSlide(indexToSerial(index))}`}
-                className="btn btn-circle"
+                href={`#carousel-slide-${nextSlide(image.id)}`}
+                className="btn btn-ghost btn-circle"
               >
                 ❯
               </a>
@@ -66,13 +108,13 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
         ))}
       </div>
       <div className="flex w-full justify-center gap-2 py-2">
-        {images.map((image, index) => (
+        {memorizedImages.map((image) => (
           <a
             key={image.source}
-            href={`#carousel-slide-${indexToSerial(index)}`}
-            className="btn btn-xs"
+            href={`#carousel-slide-${image.id}`}
+            className={`btn btn-xs${slideNumber === image.id ? " btn-accent" : ""}`}
           >
-            {indexToSerial(index)}
+            {image.id}
           </a>
         ))}
       </div>
