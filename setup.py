@@ -7,7 +7,7 @@ long_description = (this_directory / "README.md").read_text()
 
 setuptools.setup(
     name="streamlit-carousel-slider",
-    version="1.1.0",
+    version="1.2.0",
     author="ryone9re",
     author_email="ryoichi.kurimoto@gmail.com",
     description="Carousel slider component for streamlit using React and tailwind with daisyui.",
