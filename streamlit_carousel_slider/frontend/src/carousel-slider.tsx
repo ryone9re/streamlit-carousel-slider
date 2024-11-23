@@ -107,7 +107,7 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
           </div>
         ))}
       </div>
-      <div className="flex w-full justify-center gap-2 py-2">
+      <div className="flex justify-start items-center w-full gap-2 py-2 overflow-auto">
         {memorizedImages.map((image) => (
           <a
             key={image.source}
