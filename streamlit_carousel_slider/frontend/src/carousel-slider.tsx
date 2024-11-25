@@ -1,7 +1,7 @@
 import {
+  type MouseEventHandler,
   type ReactNode,
   useCallback,
-  useEffect,
   useMemo,
   useState,
 } from "react";
@@ -17,30 +17,9 @@ type CarouselSliderProps = {
   images: Images;
 };
 
-const CAROUSEL_SLIDER_NUMBER_REGEX = new RegExp(/#carousel-slide-(\d+)/);
-
-function extractSliderNumber(hash: string): number {
-  const _DEFAULT = 1;
-  const matched = hash.match(CAROUSEL_SLIDER_NUMBER_REGEX);
-  if (matched === null) {
-    return _DEFAULT;
-  }
-  if (matched.length !== 2) {
-    return _DEFAULT;
-  }
-  const slideNumber = Number.parseInt(matched[1]);
-  if (Number.isNaN(slideNumber)) {
-    return _DEFAULT;
-  }
-  return slideNumber;
-}
-
 export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
   const imageLength = images.length;
-
-  const [slideNumber, setSlideNumber] = useState(
-    extractSliderNumber(location.hash),
-  );
+  const [currentSlide, setCurrentSlide] = useState(1);
 
   const memorizedImages = useMemo(
     () =>
@@ -68,13 +47,22 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
     [imageLength],
   );
 
-  useEffect(() => {
-    const onHashChange = () => {
-      setSlideNumber(extractSliderNumber(location.hash));
+  const handlePrevClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    setCurrentSlide((prev) => previousSlide(prev));
+  };
+
+  const handleNextClick: MouseEventHandler<HTMLButtonElement> = (e) => {
+    e.preventDefault();
+    setCurrentSlide((prev) => nextSlide(prev));
+  };
+
+  const handleSlideClick =
+    (slideNumber: number): MouseEventHandler<HTMLButtonElement> =>
+    (e) => {
+      e.preventDefault();
+      setCurrentSlide(slideNumber);
     };
-    window.addEventListener("hashchange", onHashChange);
-    return () => window.removeEventListener("hashchange", onHashChange);
-  });
 
   return (
     <>
@@ -82,8 +70,9 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
         {memorizedImages.map((image) => (
           <div
             key={image.id}
-            id={`carousel-slide-${image.id}`}
-            className="carousel-item relative w-full"
+            className={`carousel-item relative w-full ${
+              currentSlide === image.id ? "" : "hidden"
+            }`}
           >
             <img
               alt={`carousel-image-${image.id}`}
@@ -91,31 +80,34 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
               className="w-full"
             />
             <div className="absolute left-5 right-5 top-1/2 flex -translate-y-1/2 transform justify-between">
-              <a
-                href={`#carousel-slide-${previousSlide(image.id)}`}
+              <button
+                type="button"
+                onClick={handlePrevClick}
                 className="btn btn-ghost btn-circle"
               >
                 ❮
-              </a>
-              <a
-                href={`#carousel-slide-${nextSlide(image.id)}`}
+              </button>
+              <button
+                type="button"
+                onClick={handleNextClick}
                 className="btn btn-ghost btn-circle"
               >
                 ❯
-              </a>
+              </button>
             </div>
           </div>
         ))}
       </div>
       <div className="flex justify-start items-center w-full gap-2 py-2 overflow-auto">
         {memorizedImages.map((image) => (
-          <a
+          <button
             key={image.id}
-            href={`#carousel-slide-${image.id}`}
-            className={`btn btn-xs${slideNumber === image.id ? " btn-accent" : ""}`}
+            type="button"
+            onClick={handleSlideClick(image.id)}
+            className={`btn btn-xs${currentSlide === image.id ? " btn-accent" : ""}`}
           >
             {image.id}
-          </a>
+          </button>
         ))}
       </div>
     </>
@@ -129,7 +121,6 @@ type CarouselSliderComponentProps = {
 class CarouselSliderComponent extends StreamlitComponentBase<CarouselSliderComponentProps> {
   public render(): ReactNode {
     const images: Images = this.props.args.images ?? [];
-
     return <CarouselSlider images={images} />;
   }
 }
