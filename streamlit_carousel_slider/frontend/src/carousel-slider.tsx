@@ -81,7 +81,7 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
       <div className="carousel w-full">
         {memorizedImages.map((image) => (
           <div
-            key={image.source}
+            key={image.id}
             id={`carousel-slide-${image.id}`}
             className="carousel-item relative w-full"
           >
@@ -110,7 +110,7 @@ export function CarouselSlider({ images }: CarouselSliderProps): ReactNode {
       <div className="flex justify-start items-center w-full gap-2 py-2 overflow-auto">
         {memorizedImages.map((image) => (
           <a
-            key={image.source}
+            key={image.id}
             href={`#carousel-slide-${image.id}`}
             className={`btn btn-xs${slideNumber === image.id ? " btn-accent" : ""}`}
           >
